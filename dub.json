@@ -3,6 +3,7 @@
 	"description": "A linear algebra library",
 	"copyright": "Copyright © 2014, Henry Gouk",
 	"authors": ["Henry Gouk"],
+	"license": "BSD 3-clause",
 	"dependencies": {
 	}
 }
