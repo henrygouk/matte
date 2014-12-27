@@ -3,11 +3,25 @@
 import std.conv;
 
 /**
- * Creates a matrix of the given dimensions.
+ * Creates a matrix with the given data
  */
-Matrix!T matrix(T = float)(size_t numRows, size_t numColumns)
+Matrix!T matrix(T = float)(T[][] data)
+in
 {
-	return Matrix!T(numRows, numColumns);
+	assert(data.length > 0);
+	assert(data[0].length > 0);
+}
+body
+{
+	auto mat = Matrix!T(data.length, data[0].length);
+
+	for(size_t i = 0; i < data.length; i++)
+	{
+		assert(data[i].length == data[0].length);
+		mat.data[i * mat.columns .. (i + 1) * mat.columns] = data[i][];
+	}
+
+	return mat;
 }
 
 /**
@@ -23,7 +37,7 @@ Matrix!T vector(T = float)(size_t dims)
  */
 Matrix!T identity(T = float)(size_t size)
 {
-	auto mat = matrix(size, size);
+	auto mat = Matrix!T(size, size);
 
 	for(size_t i = 0; i < size; i++)
 	{
@@ -38,7 +52,7 @@ Matrix!T identity(T = float)(size_t size)
  */
 Matrix!T zeros(T = float)(size_t numRows, size_t numColumns)
 {
-	return matrix!T(numRows, numColumns);
+	return Matrix!T(numRows, numColumns);
 }
 
 /**
@@ -46,7 +60,7 @@ Matrix!T zeros(T = float)(size_t numRows, size_t numColumns)
  */
 Matrix!T ones(T = float)(size_t numRows, size_t numColumns)
 {
-	auto mat = matrix!T(numRows, numColumns);
+	auto mat = Matrix!T(numRows, numColumns);
 	mat.elements[] = 1;
 
 	return mat;
